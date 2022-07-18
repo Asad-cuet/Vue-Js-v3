@@ -1,0 +1,59 @@
+run:yarn add axios
+
+
+comp.vue:
+
+
+<template>
+<div>
+
+  <button @click="getPost">Load Data</button>
+
+  <div v-for="p in post" :key="p.id">
+  {{p.id}}
+  {{p.title}}
+  </div>
+
+  <div v-id="errorMsg">{{errorMsg}}</div>
+
+</div>
+</template>
+
+
+
+<script>
+import axios from 'axios'
+
+export default 
+      {
+        name:'',
+        data()
+        {
+            return { post:[],errorMsg:'' }
+        },
+        methods:
+       {
+
+          getPost()
+          {
+              axios.get('url')
+              .then((response)=>{
+                  console.log(response.data)
+                  this.post=response.data
+               }) 
+              .catch((error)=>{
+                  console.log(error)
+                  this.errorMsg='error in retrieving'
+               })
+          }
+
+      },
+          //if you want to run method on page load or without clicking:
+
+      created()
+      {
+      this.getPost()
+      }
+
+
+</script>

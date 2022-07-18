@@ -1,0 +1,76 @@
+Suppose you have chain component:
+
+app > comp1 > comp2 > comp3
+
+how to pass data drom app to comp3.
+this is done by provide & inject.
+
+How: ****
+
+app.vue:
+
+{{name}}  //error,can't do it by provide.
+
+export default
+ {
+
+   provide:
+   {
+     name:'asad'
+   }
+
+ }
+
+
+comp3.vue:
+
+
+{{name}}
+
+
+export default
+ {
+
+  inject:['name']
+
+  }
+
+ }
+
+
+
+If you want to show also in app.vue: ***
+
+
+
+app.vue:
+
+{{name}}  //no error
+
+export default
+ {
+   data() {   return { name:'asad' }  }
+   provide()
+   {
+    return:
+   {
+     name:this.name
+   }
+
+   }
+
+ }
+
+
+comp3.vue:
+
+
+{{name}}
+
+
+export default
+ {
+
+  inject:['name']
+
+  }

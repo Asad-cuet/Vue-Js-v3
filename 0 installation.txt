@@ -1,0 +1,28 @@
+install:
+1.node js
+
+2.vscode extension: Vetur
+
+
+Project Creation:
+
+
+1.CDN Package
+
+or
+
+2.npm install vue@next    
+
+or
+
+3.Vue CLI: npm install -g @vue/cli     [using it]
+
+           vue --version [checking]
+
+           vue create <project-name>
+
+           yarn serve or, npm run serve  [run server]
+
+or
+
+4.Vite:npm init vite-app <project-name>
