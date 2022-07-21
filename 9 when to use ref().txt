@@ -1,0 +1,88 @@
+
+#output not changed beacause vue doesn't know that.
+
+For this solution ref comes.
+
+
+<template>
+<div>
+
+
+{{name}}   //output after 2: asad
+
+
+</div>
+</template>
+
+
+<script>
+
+ export default
+ {
+    name:'',
+    setup()  
+    {
+       let name='asad'
+
+       setTimeout(()=>{
+           name='hamzah'
+           console.log(name)  //out after 2:hamzah
+       },2000)
+
+       return
+       {
+          name
+       }
+
+    }
+
+}
+
+</script>
+
+
+**** *** **** **** ****
+
+Again:
+
+
+
+<template>
+<div>
+
+
+{{name}}   //output after 2: hamzah
+
+
+</div>
+</template>
+
+
+<script>
+
+
+import { ref } from 'vue'    
+
+ export default
+ {
+    name:'',
+    setup()  
+    {
+       const name=ref('asad')
+
+       setTimeout(()=>{
+           name.value='hamzah'
+           console.log(name)  //out after 2:hamzah
+       },2000)
+
+       return
+       {
+          name
+       }
+
+    }
+
+}
+
+</script>
+

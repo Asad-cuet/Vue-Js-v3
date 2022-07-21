@@ -1,0 +1,64 @@
+Option API: data(),computed{},methods{},watchers,lifcycle hooks
+are called option API.
+
+Composition API:
+
+<template>
+<div>
+
+from option API:{{o_firstName}}
+
+from composition API:{{c_firstName}}
+
+</div>
+</template>
+
+
+<script>
+
+
+import {ref} from 'vue'     // this ref() is differenr from template ref
+
+ export default
+ {
+    name:'',
+    setup()    //it is entry point of cmposition API
+    {
+
+       const c_firtName=ref('asad')   
+
+       return
+       {
+          c_firstName     //exposing to template
+       }
+
+    }
+    data() 
+    {
+           return
+           {
+            o_firstName:'Hamzah'
+
+           }
+               
+            
+      
+    }
+}
+
+</script>
+
+
+**** *** **** **** ****
+
+
+About ref:
+
+
+
+   const c_firtName=ref('asad')    //it is a object, 1 key is value
+   const lastName=ref('hamzah')
+   c_firstName.value='Islam'
+
+  const fullName='Full Name ${c_firstName.value} ${lastName.value}'
+

@@ -1,0 +1,88 @@
+
+#output not changed beacause vue doesn't know that.
+
+For this solution toRefs comes.
+
+
+<template>
+<div>
+
+
+{{state.fName}}  {{state.lName}}   //output after 2:  asad hamzah
+
+
+</div>
+</template>
+
+
+<script>
+import { reactive,toRefs } from 'vue' 
+
+ export default
+ {
+    name:'',
+    setup()  
+    {
+       const state=reactive({
+        fName:'asad',
+        lName:'hamzah'
+       })
+
+       setTimeout(()=>{
+           state.fName='rahat'
+           state.lName='mubassir'
+           console.log(state)  //out after 2:Rahat Mubassir
+       },2000)
+
+       return toRefs(state)
+
+    }
+
+}
+
+</script>
+
+
+**** *** **** **** ****
+
+Again:
+
+
+<template>
+<div>
+
+
+{{state.fName}}  {{state.lName}}   //output after 2: Rahat Mubassir
+
+</div>
+</template>
+
+
+<script>
+import { reactive, toRefs } from 'vue' 
+
+ export default
+ {
+    name:'',
+    setup()  
+    {
+       const state=reactive({
+        fName:'asad',
+        lName:'hamzah'
+       })
+
+       setTimeout(()=>{
+           state.fName='rahat'
+           state.lName='mubassir'
+           console.log(state)  //out after 2:Rahat Mubassir
+       },2000)
+
+       return toRefs(state)
+      
+
+    }
+
+}
+
+</script>
+
