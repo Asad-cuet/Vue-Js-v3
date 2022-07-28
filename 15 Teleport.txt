@@ -1,0 +1,146 @@
+What?
+Ans: Teleport is used to show data or anything out of #app in indes.html
+
+
+How:
+
+
+
+We will see how to re use modal component
+
+
+How:
+
+
+
+index.html:
+
+<div id="app"></div>
+
+<div class="modals"></div>
+
+App.vue:
+
+
+
+
+<template>
+<div>
+
+<teleport to=".modals" v-if="showModal">
+  <Modal @close="toggleModal">
+
+  <template v-slot="body">
+
+   1st modal
+
+  </template>
+  
+
+  <Modal/>   
+</teleport>
+
+
+
+<div v-if="showModalTwo">
+  <Modal @close="toggleModalTwo">
+
+  <template v-slot="body">
+
+   2nd modal
+
+  </template>
+  
+
+  <Modal/>   
+</div>
+
+<button @click="toggleModal">Open Modal</button>
+<button @click="toggleModalTwo">Open Modal Two</button>
+
+</div>
+</template>
+
+
+<script>
+import Modal from './Modal.vue'    
+
+ export default
+ {
+    name:'',
+    data()  
+    {
+       return
+       {
+          showModal:false,
+          showModalTwo:false
+       }
+
+    },
+    methods:
+    {
+        toggleModal()
+        {
+            showModal=!showModal;
+        },
+        toggleModalTwo()
+        {
+            showModalTwo=!showModalTwo;
+        }
+    },
+    components:
+    {
+        Modal
+    }
+
+}
+
+</script>
+
+
+Modal.vue:
+
+
+
+
+
+<template>
+<div>
+
+  <button>Close Modal</button>
+  <h5>This is modal</h5>
+
+  <slot name="body"></slot>
+
+
+</div>
+</template>
+
+
+<script>
+    
+
+ export default
+ {
+    name:'',
+    data()  
+    {
+       return
+       {
+          
+       }
+
+    },
+    methods:
+    {
+        closeModal()
+        {
+            this.$emit('close')   
+        }
+    }
+
+}
+
+</script>
+
+

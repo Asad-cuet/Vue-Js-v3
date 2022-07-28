@@ -1,0 +1,101 @@
+Why we use?
+Ans:Suppose you have modal component,imported in parent coomponent.
+Now you are showing this modal component by a clicking method & v-if.
+Now,when you will close the modal,you have to close it from modal component.
+So,how can you close it from modal component,while you showing this from parent component?
+
+For this we use this.$emit() in modal component.By this you can run a method of parent component.
+
+How:
+
+App.vue:
+
+
+
+
+<template>
+<div>
+
+<div v-if="showModal">
+  <Modal @close="toggleModal"/>   //close is custom events by emit
+</div>
+
+<button @click="toggleModal">Open Modal</button>
+
+</div>
+</template>
+
+
+<script>
+import Modal from './Modal.vue'    
+
+ export default
+ {
+    name:'',
+    data()  
+    {
+       return
+       {
+          showModal:false
+       }
+
+    },
+    methods:
+    {
+        toggleModal()
+        {
+            showModal=!showModal;
+        }
+    },
+    components:
+    {
+        Modal
+    }
+
+}
+
+</script>
+
+
+Modal.vue:
+
+
+
+
+
+<template>
+<div>
+
+  <button>Close Modal</button>
+  <h5>This is modal</h5>
+
+
+</div>
+</template>
+
+
+<script>
+    
+
+ export default
+ {
+    name:'',
+    data()  
+    {
+       return
+       {
+          
+       }
+
+    },
+    methods:
+    {
+        closeModal()
+        {
+            this.$emit('close')   //now close is custom events
+        }
+    }
+
+}
+
+</script>
