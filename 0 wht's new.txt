@@ -1,0 +1,11 @@
+1.multiple tag in <template />
+
+2.setup() {} the composition API
+
+3.Teleport [useful for modals]
+
+4.Suspense Component. [handle asynchronus components,spinner]
+
+5.Typescript Support
+
+6.Multiple v-models, improved reactivity

@@ -1,0 +1,42 @@
+<template>
+<div>
+
+  <input type="text" ref="name" />
+  <button @click="func">Click</button>
+
+</div>
+</template>
+<script>
+
+ export default
+ {
+    name:'refs',
+    data()
+    {
+           return
+           {
+
+
+           }
+               
+            
+      
+    },
+    methods:
+    {
+    func() 
+     {
+       this.$refs.name.classList.add('active');   //accessing DOM by ref
+       this.$refs.name.focus()
+     }
+ 
+  
+
+
+}
+
+</script>
+
+
+**** **** **** **** **** ***
+
