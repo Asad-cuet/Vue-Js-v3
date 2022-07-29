@@ -1,0 +1,93 @@
+App.vue:
+
+
+
+
+<template>
+<div>
+
+<div v-if="showModal">
+  <Modal @close="toggleModal"/>   //close is custom events by emit
+</div>
+
+<button @click="toggleModal">Open Modal</button>
+{{score}}
+</div>
+</template>
+
+
+<script>
+import Modal from './Modal.vue'    
+
+ export default
+ {
+    name:'',
+    data()  
+    {
+       return
+       {
+          showModal:false,
+          score:null
+       }
+
+    },
+    methods:
+    {
+        toggleModal(data)
+        {
+            showModal=!showModal;
+            this.score=data;
+        }
+    },
+    components:
+    {
+        Modal
+    }
+
+}
+
+</script>
+
+
+Modal.vue:
+
+
+
+
+
+<template>
+<div>
+
+  <button>Close Modal</button>
+  <h5>This is modal</h5>
+
+
+</div>
+</template>
+
+
+<script>
+    
+
+ export default
+ {
+    name:'',
+    data()  
+    {
+       return
+       {
+          data:120
+       }
+
+    },
+    methods:
+    {
+        closeModal()
+        {
+            this.$emit('close',this.data)   //now close is custom events
+        }
+    }
+
+}
+
+</script>

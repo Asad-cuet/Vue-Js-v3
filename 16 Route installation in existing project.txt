@@ -1,0 +1,38 @@
+run:vue add router
+
+
+Summery:
+
+
+
+path pattern:  '/'  ,
+
+               '/about',  
+             
+               '/user/:id'    //access:  {{$route.params.id}}  inScript: this.$route.params.id    when props true: {{id}}
+
+
+
+link:   <router-link to="/home">Home</router-link>  or,  :to={name:'Home'}
+
+        <router-link tag="button" :to="'/customer/'+$route.params.id+'/edit'"></router-link>
+
+        or,
+
+        <router-link tag="button" :to="{name:'customerEdit',params:{id:$route.params.id} }"></router-link>
+
+
+
+by method:  <button @click="toHome">Home</button>
+       toHome()
+       {
+          this.$router.push('/home');
+       }
+
+
+
+always in app.vue:  <router-view></router-view> 
+
+rendering: App > route.js > call path component > App with called component
+
+
