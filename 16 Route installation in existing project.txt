@@ -1,5 +1,6 @@
 run:vue add router
 
+* For Details: see v2
 
 Summery:
 

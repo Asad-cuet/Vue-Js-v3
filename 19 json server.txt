@@ -1,0 +1,114 @@
+install json server package: 
+    npm install json-server
+
+
+data/db.json:
+
+{
+   'blogs': [
+      {'title':'ekhwef',id:1},
+      {'title':'ekhwef',id:2},
+      {'title':'ekhwef',id:3},
+    ],
+
+   'jobs': [
+      {'title':'ekhwef',id:1},
+      {'title':'ekhwef',id:2},
+      {'title':'ekhwef',id:3},
+    ]
+}
+
+Now mention json file and run server:  //you will get a url
+    json-server --watch data/db.json   
+
+
+Read::::
+___________
+___________
+
+
+Jobs.vue:
+_________
+
+<script>
+export default {
+  data() {
+    return {
+    jobs:[]
+    }
+  },
+  mounted() {
+   fetch('url')
+     .then(res => res.json())
+     .then(data => this.jobs. = data)
+     .catch(err => console.log(err.message ))
+  }
+
+}
+
+</script>
+
+<template>
+<div v-if="jobs.length">
+
+<div v-for="job in jobs" :key="job.id">
+{{job.title}}
+
+<router-link :to="{name:'Details',params:{id:job.id}}">Details</router-link>
+</div>
+
+</div>
+<div v-else>
+Data Loading
+</div>
+
+
+</template>
+
+
+
+View::::
+________
+
+
+JobDetails.vue:
+_________
+
+<script>
+export default {
+
+  data() {
+    return {
+    job:null
+    }
+  },
+
+  props: ['id'],
+
+  mounted() {
+   fetch('url/'+this.id)
+     .then(res => res.json())
+     .then(data => this.job. = data)
+     .catch(err => console.log(err.message ))
+  }
+
+}
+
+</script>
+
+<template>
+ 
+
+<div v-if="job">   //otherwise error
+{{id}}
+Title: {{job.title}}
+</div>
+
+<div v-else>
+Details Loading
+</div>
+
+
+
+</template>
+
