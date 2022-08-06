@@ -5,21 +5,22 @@ install json server package:
 data/db.json:
 
 {
-   'blogs': [
-      {'title':'ekhwef',id:1},
-      {'title':'ekhwef',id:2},
-      {'title':'ekhwef',id:3},
-    ],
-
-   'jobs': [
-      {'title':'ekhwef',id:1},
-      {'title':'ekhwef',id:2},
-      {'title':'ekhwef',id:3},
-    ]
-}
+      "blogs": [
+         {"title":"ekhwef","id":1},
+         {"title":"ekhwef","id":2},
+         {"title":"ekhwef","id":3}
+       ],
+   
+      "jobs": [
+         {"title":"ekhwef","id":1},
+         {"title":"ekhwef","id":2},
+         {"title":"ekhwef","id":3}
+       ]
+   }
 
 Now mention json file and run server:  //you will get a url
     json-server --watch data/db.json   
+    //if error: npx json-server --watch data/db.json 
 
 
 Read::::
@@ -40,7 +41,7 @@ export default {
   mounted() {
    fetch('url')
      .then(res => res.json())
-     .then(data => this.jobs. = data)
+     .then(data => this.jobs = data)
      .catch(err => console.log(err.message ))
   }
 
