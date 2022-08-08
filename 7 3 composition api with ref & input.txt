@@ -1,0 +1,40 @@
+
+<template>
+<div>
+
+   Name:{{name}}    //out: hamzah
+
+  <input type="text" v-model="name"/>   //inputing: hamzah
+
+</div>
+</template>
+
+
+<script>
+
+
+import {ref} from 'vue'    
+                            
+
+ export default
+ {
+    name:'',
+    setup()    
+    {
+
+       const name=ref('asad')   
+
+       return
+       {
+          name    //exposing to template
+       }
+
+    }
+
+   
+}
+
+</script>
+
+
+

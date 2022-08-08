@@ -1,7 +1,5 @@
-Option API: data(),computed{},methods{},watchers,lifcycle hooks
-are called option API.
-
-Composition API:
+Composition API: Composition API is not reactive. To make reactive we use ref()
+________________
 
 <template>
 <div>
@@ -17,7 +15,8 @@ from composition API:{{c_firstName}}
 <script>
 
 
-import {ref} from 'vue'     // this ref() is differenr from template ref
+import {ref} from 'vue'     // this ref() is same to template ref.But you have to import it 
+                            // to use in composition API. 'this' is undefined in com api.
 
  export default
  {

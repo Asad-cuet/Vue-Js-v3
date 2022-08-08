@@ -1,0 +1,95 @@
+
+Home.vue
+________
+
+
+<template>
+<div>
+
+
+
+
+<PostList v-if="showPosts" :posts="post"/>
+
+<button @click="showPosts= !showPosts">Toggle Post</button>
+
+<button @click="posts.pop()">Delete a Post</button>
+
+</div>
+</template>
+
+
+<script>
+import {ref} from 'vue'
+import ..vue
+ export default
+ {
+    name:'',
+    setup()    
+    {
+       const posts=ref([
+            { title:'Asad',body:'my name is asad',id:1},
+            { title:'Rahat',body:'my name is rahat',id:2 },
+        ])
+
+       const showposts=ref(true)
+
+
+       return
+       {
+          posts,showPosts  
+       }
+
+    }
+
+}
+
+</script>
+
+
+PostList.vue:
+____________
+
+<template>
+<div>
+
+
+ 
+<div v-for="post in val" :key="post.id">
+
+     <h3>{{post.title}}</h3>
+
+</div>
+
+
+</div>
+</template>
+
+
+<script>
+import {ref, onMounted, onUnmounted, onUpdated} from 'vue'
+ export default
+ {
+    name:'',
+    props:['posts']
+    setup(props)    
+    {
+        
+      const val=ref(props.posts)
+
+      onMounted(() => console.log('mounted'))
+
+      onUnmounted(() => console.log('Unmounted'))
+
+      onUpdated(() => console.log('updated'))
+     
+       return
+       {
+          val
+       }
+
+    }
+
+}
+
+</script>

@@ -1,0 +1,61 @@
+
+Objective: I want to watch search ref [watch(search)] , 
+
+if change is search we will do watch effect [watch(search,()=> {  } )]
+
+
+<template>
+<div>
+
+//Search
+
+<input type="text" v-model="search"/>
+
+<p>Keyword: {{search}}
+
+
+
+</div>
+</template>
+
+
+<script>
+import {computed,ref,watch,watchEffect} from 'vue'
+ export default
+ {
+    name:'',
+    setup()    
+    {
+       const search=ref('')
+
+
+       watch(search,()=> { 
+
+       console.log('when search changes,it will print in console,every time i type. But not initially')  
+
+       })
+
+       watchEffect(() => {
+   
+        console.log('it is run initially the component,but 1 time')
+
+       })
+       or,
+       watchEffect(() => {    //much effective
+   
+        console.log('it is run initially the component and every time I type',search.value) //it will print in console,every time search changes, because of search 
+
+       })
+
+       return
+       {
+          names,search   
+       }
+
+    }
+
+}
+
+</script>
+
+

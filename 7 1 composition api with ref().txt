@@ -1,0 +1,76 @@
+Composition API: Composition API is not reactive. To make reactive we use ref()
+________________
+
+<template>
+<div>
+
+
+<p ref="p">My name is Asad</p>              //after click: Bye Asad
+
+<button @click="handleClick">Click Me</button> 
+
+</div>
+</template>
+
+
+<script>
+
+
+import {ref} from 'vue'     // this ref() is same to template ref.But you have to import it 
+                            // to use in composition API. 'this' is undefined in com api.
+
+ export default
+ {
+    name:'',
+    setup()    //it is entry point of cmposition API
+    {
+
+       const p=ref(null)   
+       console.log(p.value)  //out:null
+
+       const handleClick= ()=> {
+             console.log(p.value)             //out: whole p content
+             p.value.classList.add('test')    //like js
+             p.value.textContent='Bye Asad'
+             }
+
+       return
+       {
+          p,handleClick    //exposing to template
+       }
+
+    },
+
+
+
+    data() 
+    {
+           return
+           {
+            o_firstName:'Hamzah'
+
+           }
+               
+            
+      
+    }
+}
+
+</script>
+
+
+**** *** **** **** ****
+
+
+About ref:
+
+
+
+   const c_firtName=ref('asad')    //it is a object, 1 key is value
+
+   const lastName=ref('hamzah')
+
+   c_firstName.value='Islam'
+
+  const fullName='Full Name ${c_firstName.value} ${lastName.value}'
+

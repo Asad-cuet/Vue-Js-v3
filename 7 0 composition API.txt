@@ -1,0 +1,69 @@
+Option API:
+___________
+
+data(),computed{},methods{},watchers,lifcycle hooks
+are called option API. Option API is reactive
+
+Composition API: is not Reactive
+________________
+
+
+
+<template>
+<div>
+
+{{op_name}}   // if this var is changed in method,it will reflect in template.Because it is reactive
+
+{{com_name}}    // if this var is changed in method,it will not reflect in template. Because it is not reactive
+
+
+//rendering function
+
+
+<button @click="handleClick">Click Me</button>  
+
+
+
+
+</div>
+</template>
+
+
+<script>
+
+
+ export default
+ {
+    name:'',
+    setup()    //it is entry point of cmposition API
+    {
+
+       let com_name='asad' 
+
+
+       //making function:
+
+       const handleClick= ()=> {
+             console.log('Clicked')
+             }
+
+       return
+       {
+          com_name     //exposing to template
+       }
+
+    }
+    data() 
+    {
+           return
+           {
+            op_name:'Hamzah'
+
+           }
+
+    }
+}
+
+</script>
+
+

@@ -1,0 +1,25 @@
+Ref():
+_____
+
+const name=ref('asad')      //it is reativity
+      name.value='hamzah'
+
+
+
+
+const name=ref({name:'asad',age:23})      //it is reativity
+      name.value='hamzah'
+
+
+
+Reactive():
+__________
+
+const name=reactive({name:'asad',age:23})      //it is reativity
+      name.name='hamzah'
+
+
+
+
+const name=reactive('asad')      //it is not reativity
+      name='hamzah'

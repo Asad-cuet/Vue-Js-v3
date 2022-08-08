@@ -1,0 +1,73 @@
+
+Composition API:
+
+<template>
+<div>
+
+
+
+
+from reactive:{{state.name}}  {{state.age}}   && {{re_detail}}       //it will change after click
+
+From Reactive: {{name}}   //it will won't change after click
+
+
+
+<button @click="handleClick">Click Me</button> 
+
+
+
+
+</div>
+</template>
+
+
+<script>
+
+
+import {ref,reactive} from 'vue'    
+
+ export default
+ {
+    name:'',
+    setup()  
+    {
+
+  
+
+       const state = reactive({
+       name:'Rahat',
+       age:22
+       })
+
+       const name=reactive('Shanto')   //it is not reactive
+
+       const re_detail='${state.name} age: ${state.age}'
+
+
+
+       const handleClick= ()=> {
+             state.age=23
+             state.name='hamzah' 
+             name= 'islam'  
+             }
+
+       return
+       {
+          state,
+          re_detail,
+          handleClick,
+          name
+       }
+
+    }
+}
+
+</script>
+
+
+**** *** **** **** ****
+
+
+
+

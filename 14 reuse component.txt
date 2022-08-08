@@ -23,7 +23,7 @@ App.vue:
   </template>
   
 
-  <Modal/>   
+  </Modal>   
 </div>
 
 
@@ -38,7 +38,7 @@ App.vue:
   </template>
   
 
-  <Modal/>   
+  </Modal>   
 </div>
 
 <button @click="toggleModal">Open Modal</button>
