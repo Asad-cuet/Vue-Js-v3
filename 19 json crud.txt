@@ -1,0 +1,369 @@
+Run server and json-server
+
+
+Home.vue:
+==============================================
+==============================================
+
+<template>
+  <div class="home">
+    <NavFilter @filterChange=" current = $event " :current="current"/>
+    <ul class="list-group">
+
+   <li v-for="project in filteredProject" :key="project.id" class="list-group-item">
+      <SingleProject :project="project" @delete="handleDelete" @complete="handleComplete"/>
+   </li>
+
+   
+   </ul>
+  </div>
+</template>
+
+<script>
+// @ is an alias to /src
+import SingleProject from '@/views/SingleProject.vue';
+import NavFilter from '@/views/NavFilter.vue';
+
+export default {
+  name: 'Home',
+  data() {
+    return {
+      projects:[],
+      current:'all'
+    }
+  },
+  components: {
+    SingleProject,
+    NavFilter
+  },
+  mounted()
+  {
+      fetch('http://localhost:3000/projects')
+     .then(res => res.json())
+     .then(data => this.projects = data)
+     .catch(err => console.log(err.message ))
+  },
+  methods: {
+    handleDelete(id) {
+      this.projects=this.projects.filter(project=> {
+       return project.id !==id;
+      });
+    },
+    handleComplete(id) {
+      let p=this.projects.find(project=> {
+          return project.id === id
+      });
+      p.complete=!p.complete
+    }
+  },
+  computed: {
+    filteredProject()
+    {
+      if(this.current=== 'all') {
+        return this.projects;
+      }
+      if(this.current=== 'completed') {
+        return this.projects.filter(project=> project.complete);
+      }
+      if(this.current=== 'ongoing') {
+        return this.projects.filter(project=> !project.complete);
+      }
+    }
+
+  }
+}
+</script>
+
+
+NavFilter.vue:
+===========================================================
+============================================================
+
+
+<template>
+
+<div>
+      <nav class="filter-nav">
+ 
+       <button :class="{ active: current === 'all' }" @click="updateFilter('all')">All</button>
+       <button :class="{ active: current === 'completed' }" @click="updateFilter('completed')">Completed</button>
+       <button :class="{ active: current === 'ongoing' }" @click="updateFilter('ongoing')">Ongoing</button>
+
+      </nav>
+</div>
+</template>
+
+<script>
+export default {
+      name:'NavFilter',
+      props:['current'],
+      methods: {
+            updateFilter(by) {
+                  this.$emit('filterChange',by);
+            }
+      }
+}
+</script>
+
+<style scoped>
+.filter-nav button {
+      background: none;
+      border: none;
+      color: #bbb;
+      outline: none;
+      font-size: 12px;
+      text-transform: uppercase;
+      margin-left: 10px;
+      letter-spacing: 1px;
+      font-weight: bold;
+      cursor: pointer;
+}
+  .active {
+      color:#555!important;
+}
+</style>
+
+
+SingleProject.vue:
+==============================================================================
+===============================================================================
+
+
+<template>
+
+
+<div class="project" :class="{complete: project.complete }" style="background-color:#172035;color:white;width:300px;margin:auto">
+
+      <div class="action">
+            <div style="cursor:pointer" @click="showDetails =!showDetails">{{project.title}}</div> 
+
+            <div class="icons">
+                  <router-link :to="{ name:'EditProject',params : {id:project.id} }">
+                        <span class="material-icons">edit</span>
+                  </router-link>
+                  <span @click="deleteProject" class="material-icons">delete</span>
+                  <span @click="toggleComplete" class="material-icons tick">done</span>
+            </div>
+
+
+      </div>
+      
+
+      
+      <div v-if="showDetails">
+      {{project.details}}
+      </div>
+
+
+</div>
+
+
+
+
+</template>
+
+<script>
+export default {
+     name:"SingleProjet",
+     props:['project'],
+     data() {
+      return {
+            showDetails:false,
+            url:'http://localhost:3000/projects/'+this.project.id
+      }
+     },
+     methods:{
+      deleteProject() {
+          fetch(this.url,{ method: 'DELETE'})                 //deleted but page not updated
+          .then(()=> this.$emit('delete',this.project.id))   //this is for page update  in Home.vue
+          .catch(err=>console.log(err.message));
+      },
+      toggleComplete() {
+        fetch(this.url, { 
+               method: 'PATCH',
+               headers: { 'Content-Type' : 'application/json' },
+               body :JSON.stringify({
+                  complete: !this.project.complete
+                  })
+               })    //updated in db
+        .then(()=> {
+            this.$emit('complete',this.project.id)   //for updating in Home.vue
+        })         
+        .catch((err)=> console.log(err.message));
+      }
+     }
+}
+</script>
+
+<style scoped>
+.action {
+      display:flex;
+      justify-content: space-between;
+      align-items: center;
+}
+
+.icons span {
+      cursor: pointer;
+}
+.project {
+      margin: 20px auto;
+      background: white;
+      padding: 10px 20px;
+      border-radius:4px;
+      box-shadow: 1px 2px 3px rgba(0,0,0,0.05);
+      border-left: 4px solid #e90074;
+}
+.project.complete {
+      border-left: 4px solid #00ce89;
+}
+.project.complete .tick {
+      color:#00ce89;
+}
+
+</style>
+
+
+
+AddProject.vue:
+=====================================================================
+=====================================================================
+
+
+
+
+<template>
+  <div style="width:100%;max-width:500px;margin:auto;">
+  <form @submit.prevent="handleSubmit">
+  <div class="mb-3">
+    <label for="exampleFormControlInput1" class="form-label">Title</label>
+    <input type="text" v-model="title" class="form-control">
+  </div>
+  <div class="mb-3">
+    <label for="exampleFormControlTextarea1" class="form-label">Details</label>
+    <textarea v-model="details" class="form-control" rows="3"></textarea>
+  </div>
+  <button type="submit" class="btn">Add Project</button>
+  </form>
+  </div>
+</template>
+
+<script>
+export default {
+  name:'AddProject',
+  data() {
+    return {
+      title:'',
+      details:''
+    }
+  },
+  methods: {
+    handleSubmit() {
+      let project= {
+        title: this.title,
+        details: this.details,
+        complete: false
+      }
+      fetch('http://localhost:3000/projects', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(project)
+      })
+      .then(()=> {
+        this.$router.push('/')
+      })
+      .catch((err)=> console.log(err));
+    }
+  }
+
+}
+</script>
+
+<style scoped>
+input, textarea{
+  border: 1px solid #e90074;
+}
+button {
+  background-color: #00ce89;
+  color:white;
+}
+
+</style>
+
+
+
+
+EditProject.vue:
+=========================================================================
+==========================================================================
+
+
+
+<template>
+  <div style="width:100%;max-width:500px;margin:auto;">
+ <form @submit.prevent="handleSubmit">
+  <div class="mb-3">
+    <label for="exampleFormControlInput1" class="form-label">Title</label>
+    <input type="text" v-model="title" class="form-control">
+  </div>
+  <div class="mb-3">
+    <label for="exampleFormControlTextarea1" class="form-label">Details</label>
+    <textarea v-model="details" class="form-control" rows="3"></textarea>
+  </div>
+  <button type="submit" class="btn">Update Project</button>
+  </form>
+
+  </div>
+</template>
+
+<script>
+export default {
+     name:'EditProject',
+     props:['id'],
+     data() {
+      return {
+            title:'',
+            details:'',
+            complete:null,
+            url:'http://localhost:3000/projects/'+this.id
+      }
+     },
+     mounted() {
+      fetch(this.url)
+      .then(res=> res.json())
+      .then(data=> {
+            this.title=data.title;
+            this.details=data.details;
+            this.complete=data.complete;
+      });
+     },
+     methods: {
+          handleSubmit() {
+        fetch(this.url, { 
+               method: 'PATCH',
+               headers: { 'Content-Type' : 'application/json' },
+               body :JSON.stringify({
+                  title: this.title,
+                  details: this.details,
+                  complete: this.complete
+                  })
+               })    //updated in db
+        .then(()=> {
+            this.$router.push('/');
+        })         
+        .catch((err)=> console.log(err.message));
+    }
+  }
+}
+
+</script>
+
+<style scoped>
+input, textarea{
+  border: 1px solid #e90074;
+}
+button {
+  background-color: #00ce89;
+  color:white;
+}
+
+</style>

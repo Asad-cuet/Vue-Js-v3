@@ -1,0 +1,94 @@
+Create src/composables/getPosts.js:
+
+
+getPosts.js:
+=============================================
+=============================================
+import {ref} from 'vue'
+
+const getPosts = () => {
+            const posts=ref([])
+            const error=ref([])
+
+            //simulate delay                       //or by css: .class::before { loader }
+            await new Promise(resolve => {
+                  setTimeout(resolve,2000)
+            })
+
+            const load= async() => {
+                  try {
+                        let data=await fetch('url')
+                        if(!data.ok)                  //data have key named ok
+                        {
+                              throw Error('No data')
+                        }
+                        posts.value= await data.json()
+                  }
+                  catch (err) {
+                        error.value=err.message
+                        console.log(error.value)
+                  }
+            }
+
+            return {
+                  posts,error,load
+            }
+}
+
+
+export default getPosts
+
+
+
+
+
+
+Home.vue:
+==================================================================
+==================================================================
+
+
+<template>
+<div>
+
+<div v-if="error">{{error}}</div>
+
+<div v-if="posts.length">
+
+   <div v-for="post in posts" :key="post.id">
+    
+    {{post.id}}
+   
+   </div>
+
+</div>
+<div v-else>        //seen for 2 seconds
+      
+    
+
+</div>
+
+
+</div>
+</template>
+
+<script>
+import getPosts from '../compasables/getPosts'
+
+   export default {
+      name:'',
+      setup()
+      {
+            const {posts,error,load} = getPosts()   //calling these code
+
+            load() // running function
+
+            return {
+                  posts,error   //also do it
+            }
+      }
+   }
+
+
+
+</script>

@@ -1,0 +1,68 @@
+<template>
+<div>
+
+<button @click="toHome">Home</button>
+</div>
+
+
+</div>
+</template>
+
+<script>
+import {useRouter} from 'vue-router'
+   export default {
+
+
+      name:'',
+      props:['id'],
+      setup(props)
+      {
+         const router=useRouter()
+
+         console.log(router)   //all method consoled
+
+         router.go(-1)  //backward
+         router.go(1)  //forward
+
+         toHome()
+         {
+               router.push({name:'Home'})  //path
+         }
+         
+         return {
+            toHome
+         }
+      }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+methods: {
+    goBack() 
+    {
+       this.$router.go(-1)
+    },
+    goForward()
+    {
+       this.$router.go(1); 
+    },
+    redirect()
+    {
+       this.$router.push({name:'Home'})
+    }
+  }
+
+
+
+}
+</script>
