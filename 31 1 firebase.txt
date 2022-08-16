@@ -1,0 +1,53 @@
+Start:
+====================================
+====================================
+1.url : https://firebase.google.com/
+
+2.login
+
+3.create project
+
+4.unable google analytics
+
+5.use cloud firestore
+
+6.create database
+
+7.start in test mode
+
+
+How to make Connection:
+========================================
+========================================
+
+1.run: npm install firebase
+
+2.register: Firebase > project overview > </> > app name> register > 
+
+            continue to console > app > config > copy all code
+
+3.create: src/firebase/config.js: 
+
+                  import firebase from 'firebase/app'
+                  import 'firebase/firestore'
+                 
+                  paste the code
+
+                   //init firebase
+                   firebase.initializeApp(firebaseConfig)   //firebaseConfig is const name from paste code
+ 
+                   //init firestore service
+                   const projectFirestore= firebase.firestore()
+
+                   export { projectFirestore }
+
+
+Create a table:
+===================================================
+===================================================
+
+1. start new collection
+
+2.collection id is table name
+
+3.document id is id of a row. 1 document is a single row data

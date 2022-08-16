@@ -1,0 +1,56 @@
+<template>
+<div>
+
+<from @submit.prevent="handleSubmit">
+   <label>Title</label>
+   <input v-model="title" type="text" required />
+   <label>Content</label>
+   <input v-model="body" type="text" required />
+   <label>Tag</label>
+   <input v-model="tag" type="text" required />
+   <button type="submit">Submit</button>
+</from>
+
+</div>
+</template>
+
+<script>
+import {ref} from 'vue'
+import {useRouter} from 'vue-router'
+   export default {
+      name:'',
+      props:['id'],
+      setup(props)
+      {
+         const title=ref('')
+         const body=ref('')
+         const tag=ref('')
+
+         const handleSubmit= async () => {
+            const post= {
+               title:title.value,
+               body:body.value,
+               tag:tag.value
+            }
+
+            await fetch('http://localhost:3000/posts', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(post)
+            })
+            
+            router.push({name:'Home'})
+
+         }
+
+         
+         return {
+            title,body,tag,handleSubmit
+         }
+      }
+   }
+
+
+
+</script>
+
