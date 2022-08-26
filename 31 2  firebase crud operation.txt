@@ -110,7 +110,12 @@ import { projectFirestore } from '../firebase/config' // *******************
 
             const load= async() => {
                   try {
-                        const res=await projectFirestore.collection('posts').doc(props.id).get()    //return many document.
+                        const res=await projectFirestore.collection('posts').doc(props.id)
+
+                        .orderBy('createdAt','desc')             //optional
+
+                        .get()    //return many document.
+
                         if(!res.exists)
                         {
                             throw Error('The post doesn't exist')
@@ -162,7 +167,7 @@ template>
 
 <script>
 import {ref} from 'vue'
-import { projectFirestore } from '../firebase/config'
+import { projectFirestore,timestamp } from '../firebase/config'      //************************
 import {useRouter} from 'vue-router'
 
    export default {
@@ -178,7 +183,8 @@ import {useRouter} from 'vue-router'
             const post= {
                title:title.value,
                body:body.value,
-               tag:tag.value
+               tag:tag.value,
+               createdAt: timestamp()    
             }
 
             const res=await projectFirestore.collection('posts').add(post)
@@ -197,4 +203,98 @@ import {useRouter} from 'vue-router'
 
 
 </script>
+
+
+
+Delete a document:
+===============================================================
+===============================================================
+
+View Single data:
+
+
+<template>
+<div>
+
+<div v-if="error">{{error}}</div>
+
+<div v-if="post">
+    {{post.id}}
+
+    <button @click="handleClick">Delete</button>
+
+</div>
+<div v-else>
+      Loading...
+</div>
+
+
+</div>
+</template>
+
+
+<script>
+import {ref} from 'vue'
+import {useRoute,useRouter} from 'vue-router'            //******************************
+
+import { projectFirestore } from '../firebase/config' // *******************
+
+   export default {
+      name:'',
+      props:['id'],   comming route
+      setup(props)
+      {
+            const post=ref([])
+            const error=ref([])
+            const router = useRouter()                //********************************
+
+            const load= async() => {
+                  try {
+                        const res=await projectFirestore.collection('posts').doc(props.id).get()    //return many document.
+                        if(!res.exists)
+                        {
+                            throw Error('The post doesn't exist')
+                        }
+                        post.value=  {...doc.data(),id:res.id} 
+                       
+                  }
+                  catch (err) {
+                        error.value=err.message
+                        console.log(error.value)
+                  }
+            }
+
+            load()
+
+            const handeClick=async() => {                         //*********************
+               await projectFirestore.collection('posts')
+                    .doc(props.id)
+                     .delete()
+ 
+               router.push({name:'Home'})
+            }
+
+            return {
+                  posts,error,handeClick                           //**********************
+            }
+      }
+   }
+
+
+
+</script>
+
+
+Realtime Listener:
+===============================================================
+===============================================================
+
+What is It: Suppose, In browser1 i opened home page of posts. In browser2 I am adding new post. 
+
+When I am adding a new postin brwoser2, the update it's not showing in browser1. For solve this problem,
+
+Real time listener is used.
+
+
+
 
