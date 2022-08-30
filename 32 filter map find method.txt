@@ -1,0 +1,113 @@
+projects is a object. Suppose it's have some value
+
+
+Inside any method():
+==============================================================
+==============================================================
+
+this.projects=this.projects.filter(project=> {
+
+ return project.id === 7
+
+  })
+
+
+this.projects=this.projects.find(project=> {
+
+ return project.id === 7
+
+  })
+
+this.projects=this.projects.map(project=> {
+
+ return project.id === 7
+
+  })
+
+Live Example:
+=============
+    handleDelete(id) {
+      this.projects=this.projects.filter(project=> {
+       return project.id !==id;
+      });
+    }
+
+
+
+
+
+Inside in computed():
+========================================================================
+========================================================================
+  template access:  v-for="project in filteredProject"
+
+
+  computed: {
+    filteredProject()
+    {
+      if(this.current=== 'all') {
+        return this.projects;
+      }
+      if(this.current=== 'completed') {
+        return this.projects.filter(project=> project.complete);
+      }
+      if(this.current=== 'ongoing') {
+        return this.projects.filter(project=> !project.complete);
+      }
+    }
+
+
+
+
+Inside any async():
+==========================================================================
+==========================================================================
+
+projects.value=projects.value.filter(project=> {
+
+ return project.value.id === 7   //if 7
+
+  })
+
+
+projects.value=projects.value.find(project=> {
+
+ return project.value.id === 7
+
+  })
+
+projects.value=projects.value.map(project=> {
+
+ return project.value.id === 7
+
+  })
+
+
+Live example:
+==============
+            const handleDelete= async(id) => {
+
+              posts.value=posts.value.filter(post=> {
+
+                return post.id !==id;
+
+            })
+
+
+Inside Computed in composition API:
+==============================================================================
+==============================================================================
+            const filteredProject= computed( ()=> {
+               
+                  if(current.value=== 'all') {
+                    return posts.value;
+                  }
+                  if(current.value=== 'completed') {
+                    return posts.value.filter(post=> post.complete);   //if true
+                  }
+                  if(current.value=== 'ongoing') {
+                    return posts.value.filter(post=> !post.complete);  //if not
+                  }
+            })
+
+

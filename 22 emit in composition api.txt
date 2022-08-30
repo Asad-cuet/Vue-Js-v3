@@ -1,0 +1,19 @@
+     setup(props,{ emit })
+     {
+               emit('delete',props.project.id);
+     }
+
+
+
+
+
+
+<script setup>
+ import { defineEmits,watch,ref } from 'vue'
+    
+    const emit = defineEmits(['showsidebar'])
+    const showSidebar = ref(true);
+  
+    emit('showsidebar',showSidebar.value);
+     
+</script>

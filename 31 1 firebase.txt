@@ -9,18 +9,33 @@ Start:
 
 4.unable google analytics
 
-5.use cloud firestore
+5.go to projct and click cloud firestore
 
 6.create database
 
 7.start in test mode
+
+Create a table:
+===================================================
+===================================================
+
+1. start new collection
+
+2.collection id is table name
+
+3.document id is id of a row. 1 document is a single row data
 
 
 How to make Connection:
 ========================================
 ========================================
 
-1.run: npm install firebase
+1.run: npm install firebase   //server must be off
+
+OR, yarn add firebase-tools  
+
+Or, npm install -g firebase-tools
+
 
 2.register: Firebase > project overview > </> > app name> register > 
 
@@ -30,6 +45,12 @@ How to make Connection:
 
                   import firebase from 'firebase/app'
                   import 'firebase/firestore'
+                     
+                  // Or, if error
+
+                  import firebase from 'firebase/compat/app'
+                  import 'firebase/compat/firestore'
+
                  
                   paste the code
 
@@ -44,12 +65,3 @@ How to make Connection:
                    export { projectFirestore, timestamp }
 
 
-Create a table:
-===================================================
-===================================================
-
-1. start new collection
-
-2.collection id is table name
-
-3.document id is id of a row. 1 document is a single row data
