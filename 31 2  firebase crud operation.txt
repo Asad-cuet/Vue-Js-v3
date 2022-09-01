@@ -43,7 +43,11 @@ import { projectFirestore } from '../firebase/config' // *******************
 
             const load= async() => {
                   try {
-                        const res=await projectFirestore.collection('posts').get()    //return many document.
+                        const res=await projectFirestore.collection('posts')
+
+                        .orderBy('createdAt','desc')             //optional
+
+                        .get()    //return many document 'docs'.
                         
                         posts.value= res.docs.map(doc => {          //coverting all document as row data,and adding id in row
                               return {...doc.data(),id:doc.id} 
@@ -110,11 +114,7 @@ import { projectFirestore } from '../firebase/config' // *******************
 
             const load= async() => {
                   try {
-                        const res=await projectFirestore.collection('posts').doc(props.id)
-
-                        .orderBy('createdAt','desc')             //optional
-
-                        .get()    //return many document.
+                        const res=await projectFirestore.collection('posts').doc(props.id).get()    //return many document.
 
                         if(!res.exists)
                         {
@@ -283,17 +283,6 @@ import { projectFirestore } from '../firebase/config' // *******************
 
 
 </script>
-
-
-Realtime Listener:
-===============================================================
-===============================================================
-
-What is It: Suppose, In browser1 i opened home page of posts. In browser2 I am adding new post. 
-
-When I am adding a new postin brwoser2, the update it's not showing in browser1. For solve this problem,
-
-Real time listener is used.
 
 
 

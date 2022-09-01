@@ -4,8 +4,12 @@
      }
 
 
+Or,
 
-
+     setup(props,{context)
+     {
+               context.emit('delete',props.project.id);
+     }
 
 
 <script setup>

@@ -1,0 +1,29 @@
+  *Go to home page
+
+  * See sidebar > click authentication > sign in methods >
+
+                Email/Password > enable & email-link not enalble > save
+
+
+  *update firebase/config.js:
+
+import firebase from 'firebase/compat/app'
+import 'firebase/compat/firestore'
+import 'firebase/compat/auth'    //***************
+
+
+//paste config code here
+
+ //init firebase
+ firebase.initializeApp(firebaseConfig)   //firebaseConfig is const name from paste code
+
+ //init firestore service
+ const projectAuth=firebase.auth()    //***************
+
+ const projectFirestore= firebase.firestore()
+
+ const timestamp=firebase.firestore.FieldValue.serverTimestamp   //Optional, if you want to make timestamp column
+
+ export { projectAuth,projectFirestore, timestamp }    //**************
+
+

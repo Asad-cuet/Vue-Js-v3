@@ -1,0 +1,84 @@
+
+Realtime Listener:
+===============================================================
+===============================================================
+
+What is It: Suppose, In browser1 i opened home page of posts. In browser2 I am adding new post. 
+
+When I am adding a new postin brwoser2, the update it's not showing in browser1. For solve this problem,
+
+Real time listener is used.
+
+Home.vue: [fetching data]
+=====================================================================
+=====================================================================
+
+<template>
+   <div>
+   
+   <div v-if="error">{{error}}</div>
+   
+   <div v-if="posts.length">
+   
+      <div v-for="post in posts" :key="post.id">
+       
+       {{post.id}}
+      
+      </div>
+   
+   </div>
+   <div v-else>
+         Loading...
+   </div>
+   
+   
+   </div>
+   </template>
+   
+   
+   
+   <script>
+   import {ref} from 'vue'
+   
+   import { projectFirestore } from '../firebase/config' 
+   
+      export default {
+         name:'',
+         setup()
+         {
+               const posts=ref([])
+               const error=ref([])
+   
+               const load= async() => {
+                     try {
+                           const res=await projectFirestore.collection('posts')
+   
+                           .orderBy('createdAt','desc')             //optional
+   
+                           .onSnapshot((snap)=> {                                  //************************************************ */
+                              let docs=snap.docs.map(doc=>{
+                                 return { ...doc.data(),id:doc.id }   //taking doc id in id
+                              })
+                              posts.value=docs
+                           })
+                     }
+                     catch (err) {
+                           error.value=err.message
+                           console.log(error.value)
+                     }
+               }
+   
+               load()
+   
+               return {
+                     posts,error
+               }
+         }
+      }
+   
+   
+   
+   </script>
+   
+   
+   

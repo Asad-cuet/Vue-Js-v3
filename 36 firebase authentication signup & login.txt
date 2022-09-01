@@ -1,0 +1,490 @@
+SignupForm.vue:
+=========================================================
+=========================================================
+
+<template>
+  <div>
+      <div v-if="success" class="success">Sign up successfuly done</div>
+      <form @submit.prevent="handleSubmit">
+            <label for="">Name</label>
+            <input type="text" v-model="name" placeholder="Name"/>
+            <label for="">Email</label>
+            <input type="email" v-model="email" placeholder="Email"/>
+            <label for="">Password</label>
+            <input type="password" v-model="password" placeholder="Password"/>
+            <input type="submit" class="button" value="Sign Up"/>
+      </form>
+      <div class="error">{{error}}</div>
+  </div>
+</template>
+
+<script>
+import {ref} from 'vue'
+import useSignup from '../composables/useSignup'
+export default {
+    setup(props,context)
+    {
+      const { error,signup }=useSignup()
+      const name=ref('')
+      const email=ref('')
+      const password=ref('')
+
+      const handleSubmit=async()=> {
+            await signup(email.value,password.value,name.value)
+            if(!error.value)
+            {
+                  console.log('Sign up complete')
+                  name.value=email.value=password.value=null
+                  context.emit('signedUp')
+            }
+            
+      }
+      return {
+            name,email,password,handleSubmit,error
+      }
+    }
+}
+</script>
+
+<style>
+
+</style>
+
+
+src/composables/useSignup.js:
+==========================================================================
+==========================================================================
+
+
+
+import { projectAuth } from '../firebase/config.js'
+import {ref} from 'vue'
+
+const error=ref(null)
+const signup=async (email,password,name) => {
+       try
+       {
+            error.value=null
+            const res=await projectAuth.createUserWithEmailAndPassword(email,password)
+            if(!res)
+            {
+                 throw new Error('Could not complete the signup')
+            }
+            
+            await res.user.updateProfile({name})
+            console.log(res.user)
+            return res
+       }
+       catch(err)
+       {
+         error.value=err.message
+         console.log(error.value)
+       }
+       
+}
+const useSignup=()=> {
+      
+      return {
+            error,signup
+      }
+}
+export default useSignup
+
+
+
+Login:
+===================
+===================
+
+
+loginForm.vue:
+===================================================================
+===================================================================
+
+<template>
+  <div>
+      <form @submit.prevent="handleSubmit">
+            <label for="">Email</label>
+            <input type="email" v-model="email" placeholder="Email"/>
+            <label for="">Password</label>
+            <input type="password" v-model="password" placeholder="Password"/>
+            <input type="submit" class="button" value="Login"/>
+      </form>
+      <div class="error">{{error}}</div>
+  </div>
+</template>
+
+<script>
+import {ref} from 'vue'
+import useLogin from '../composables/useLogin'
+export default {
+    setup(props,context)
+    {
+      const { error,login }=useLogin()
+      const email=ref('')
+      const password=ref('')
+
+      const handleSubmit=async()=> {
+            await login(email.value,password.value)
+            if(!error.value)
+            {
+                  email.value=password.value=null
+                  context.emit('logedIn')
+            }
+            
+      }
+      return {
+            email,password,handleSubmit,error
+      }
+    }
+}
+</script>
+
+<style>
+
+</style>
+
+
+
+src/composables/useLogin.js:
+===================================================================
+===================================================================
+
+import { projectAuth } from '../firebase/config.js'
+import {ref} from 'vue'
+
+const error=ref(null)
+const login=async (email,password) => {
+       try
+       {
+            error.value=null
+            const res=await projectAuth.signInWithEmailAndPassword(email,password)
+            if(!res)
+            {
+                 throw new Error('Could not complete the Login')
+            }
+            return res
+       }
+       catch(err)
+       {
+         error.value=err.message
+         console.log(error.value)
+       }
+       
+}
+const useLogin=()=> {
+      
+      return {
+            error,login
+      }
+}
+export default useLogin    
+
+
+
+Authentication Guard:
+======================================================================
+======================================================================
+
+route.index.js:
+======================================================================
+======================================================================
+
+
+import { createRouter, createWebHistory } from 'vue-router'
+import Welcome from '../views/Welcome.vue'
+import Chatroom from '../views/Chatroom.vue'
+import { projectAuth } from '@/firebase/config'
+
+//Auth Gourd
+const requireAuth=(to,from,next)=>{
+  let user=projectAuth.currentUser
+  console.log('Cureent User is '+user)
+  if(!user)
+  {
+    next({name:'Welcome'})
+  }
+  else
+  {
+    next()
+  }
+}
+
+
+
+const routes = [
+  {
+    path: '/',
+    name: 'Welcome',
+    component: Welcome
+  },
+  {
+    path: '/chatroom',
+    name: 'Chatroom',
+    component: Chatroom,
+    beforeEnter: requireAuth
+  }
+]
+
+const router = createRouter({
+  history: createWebHistory(process.env.BASE_URL),
+  routes
+})
+
+export default router
+
+
+Problem: 
+==============
+after reload in chatroom path,it will be redirect in welcome.
+For this change in main.js:
+
+main.js:
+===============================================================
+===============================================================
+
+import { createApp } from 'vue'
+import App from './App.vue'
+import router from './router'
+import './assets/main.css'
+import {projectAuth} from './firebase/config'
+
+// createApp(App).use(router).mount('#app')
+
+let app
+
+projectAuth.onAuthStateChanged(()=>{
+      if(!app)
+      {
+         app=createApp(App).use(router).mount('#app')
+      }
+})
+
+
+
+
+Get Current User details:
+================================================================
+getUser.js:
+================================================================
+================================================================
+
+import {ref} from 'vue'
+import {projectAuth} from '../firebase/config'
+
+const user=ref(projectAuth.currentUser)
+
+projectAuth.onAuthStateChanged(_user=> {
+      console.log('User changed. Current User is: '+_user)
+      user.value=_user
+})
+
+const getUser=()=>{
+      return {user}
+}
+export default getUser
+
+
+Template:
+================================================================
+================================================================
+<template>
+<div>
+      <nav v-if="user">
+       <div>
+        <p>Hei {{user.name}}</p>
+        <p class="email">Currently logged in as {{user.email}}</p>
+      </div>
+        <button @click="handleClick" class="button-danger">Logout</button>
+        
+      </nav>
+    
+ 
+  
+</div>
+
+  
+</template>
+<script>
+  import {ref} from 'vue'
+  import useLogout from '../composables/useLogout'
+  import getUser from '../composables/getUser'
+  export default {
+      setup(props,context)
+      {
+        const { error,logout }=useLogout()
+        const { user }=getUser()
+  
+        const handleClick=async()=> {
+              await logout()
+              if(!error.value)
+              {
+                    console.log('Logged Out')
+              }
+              
+        }
+        return {
+              handleClick,error,user
+        }
+      }
+  }
+  </script>
+
+
+
+
+Guard in Chatroom component:[whit is gourded in path]
+===========================================
+===========================================
+
+<template>
+  <div class="container ">
+      <Navbar />
+  </div>
+</template>
+
+<script>
+import Navbar from '../components/Navbar' 
+import {watch} from 'vue'
+import {useRouter} from 'vue-router'
+import getUser from '@/composables/getUser'
+
+export default {
+     name:'Chatroom',
+     setup()
+     {
+      const {user}=getUser()
+      const router=useRouter()
+      watch(user,()=>{
+        if(!user.value)
+        {
+          router.push({name:'Welcome'})
+        }
+      })
+     },
+     components: {
+      Navbar
+     }
+}
+</script>
+
+<style>
+
+</style>
+
+
+
+
+
+
+
+
+
+Logout:
+==============================================================
+============================================================== 
+
+template:
+
+<template>
+<div>
+      <nav v-if="user">
+       <div>
+        <p>Hei {{user.name}}</p>
+        <p class="email">Currently logged in as {{user.email}}</p>
+      </div>
+        <button @click="handleClick" class="button-danger">Logout</button>
+        
+      </nav>
+    
+ 
+  
+</div>
+
+  
+</template>
+<script>
+  import {ref} from 'vue'
+  import useLogout from '../composables/useLogout'
+  import getUser from '../composables/getUser'
+  import {useRouter} from 'vue-router'
+  export default {
+      setup(props,context)
+      {
+        const { error,logout }=useLogout()
+        const { user }=getUser()
+        const router=useRouter()
+ 
+  
+        const handleClick=async()=> {
+              await logout()
+              if(!error.value)
+              {
+                    console.log('Logged Out')
+                    router.push({name:'Welcome'})
+              }
+              
+        }
+        return {
+              handleClick,error,user
+        }
+      }
+  }
+  </script>
+
+
+useLogout.js:
+==========================================================
+==========================================================
+
+import { projectAuth } from '../firebase/config.js'
+import {ref} from 'vue'
+
+const error=ref(null)
+const logout=async () => {
+      error.value=null
+       try
+       {
+            await projectAuth.signOut()
+       }
+       catch(err)
+       {
+         error.value=err.message
+         console.log(error.value)
+       }
+       
+}
+const useLogout=()=> {
+      
+      return {
+            error,logout
+      }
+}
+export default useLogout
+
+
+Gaurd in Welcome page when logged in:
+=====================================================================
+=====================================================================
+
+route/index.js:
+
+
+
+const isAuth=(to,from,next)=>{
+  let user=projectAuth.currentUser
+  if(user)
+  {
+    next({name:'Chatroom'})
+  }
+  else
+  {
+    next()
+  }
+
+}
+
+
+
+
+

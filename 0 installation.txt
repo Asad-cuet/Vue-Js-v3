@@ -15,7 +15,9 @@ or
 
 or
 
-3.Vue CLI: npm install -g @vue/cli     [using it]
+3.Vue CLI:   [using it]
+
+           npm install -g @vue/cli     [ run this 1 time]
 
            vue --version [checking]
 
