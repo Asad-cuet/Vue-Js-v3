@@ -1,0 +1,140 @@
+ADD DOCUMENT:
+===================================================
+===================================================
+
+useCollection.js:
+
+
+import {ref} from 'vue'
+import {projectFirestore} from '../firebase/config'
+
+const useCollection=(collection)=>{
+     const error=ref(null)
+     const addDoc=async(doc)=>{
+          error.value=null
+          try
+          {
+              await projectFirestore.collection(collection).add(doc)
+          }
+          catch(err)
+          {
+               error.value=err.message
+               console.log(err.message,error.value)
+          }
+     }
+     return { error,addDoc }
+}
+
+export default useCollection
+
+
+How to use:
+<script>
+import {ref} from 'vue'
+import useCollection from '../composables/useCollection'
+import {timestamp} from '../firebase/config'
+export default {
+       setup()
+       {
+            const status=ref('')
+            const {error,addDoc}=useCollection('message')   //Message is table name
+            const handleSubmit=async()=>{
+                  const chat={
+                        email:'asadul7733@gmail.com',       //use ref: email.value
+                        message:'Any text',
+                        createdAt:timestamp()
+                  }
+                  await addDoc(chat)
+                  if(!error.value)
+                  {
+                        status.value="Message sent"
+                        console.log(status.value)
+                  }
+
+            }
+            return {
+                  handleSubmit,status
+            }
+       }
+}
+</script>
+
+
+
+Read Document:
+===================================================
+===================================================
+
+getCollection.js:
+
+import {ref, watchEffect} from 'vue'
+import {projectFirestore} from '../firebase/config'
+
+const getCollection=(collection)=>{
+     const error=ref(null)
+     const documents=ref(null)
+
+              let collectionRef= projectFirestore.collection(collection).orderBy('createdAt')
+             const unsub = collectionRef.onSnapshot((snap)=>{
+                  let results=[]
+                  snap.docs.forEach(doc=>{
+                       doc.data().createdAt && results.push({...doc.data(),id:doc.id})
+                  })
+                  documents.value=results
+                  error.value=null
+              },
+              (err)=>{
+                  error.value="Could not fetch the data"
+                  documents.value=null
+                  console.log(err.message)
+              })
+
+              //problem: after logout and login again,previous snapshot alive,
+              //but we want to re initialize snapshot when relog in.
+              //for tis we took unsub
+              watchEffect((onInvalidate)=>{
+                  onInvalidate(()=>unsub())
+              })
+      
+
+     return { error,documents }         
+}
+
+
+export default getCollection
+
+
+how to use:
+
+
+
+<script>
+import getCollection from '../composables/getCollection'   
+  
+import {formatDistanceToNow} from 'date-fns'
+import { computed } from '@vue/runtime-core'
+
+export default {
+     setup()
+     {
+         const {error,documents}=getCollection('message')
+
+         const fromatredDocuments=computed(()=>{
+            if(documents.value)
+            {
+                  return documents.value.map(doc=>{
+                        let time=formatDistanceToNow(doc.createdAt.toDate())
+                        return {...doc,createdAt:time}
+                  })
+            }
+         })
+ 
+
+         return {
+            error,documents,fromatredDocuments
+         }
+     }
+}
+</script>
+
+

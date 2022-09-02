@@ -1,0 +1,30 @@
+
+<template>
+
+
+      <div v-if="documents" class="bar" ref="bar">
+            <div v-for="doc in fromatredDocuments" :key="doc.id" class="row">
+                 <span>{{doc.createdAt}}</span>
+                 <span>{{doc.email}}</span>
+                 <p>{{doc.message}}</p>
+            </div>
+      </div>
+
+  </div>
+</template>
+
+
+<script>
+import {ref} from 'vue'
+
+import { onUpdated } from '@vue/runtime-core'
+
+     setup()
+     {
+         const bar=ref(null)
+         onUpdated(()=>{
+                bar.value.scrollTop=bar.value.scrollHeight
+         })
+         return {
+            bar
+         }
