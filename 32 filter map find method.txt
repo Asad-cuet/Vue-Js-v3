@@ -1,4 +1,4 @@
-projects is a object. Suppose it's have some value
+let projects is a object. Suppose it's have some value
 
 
 Inside any method():

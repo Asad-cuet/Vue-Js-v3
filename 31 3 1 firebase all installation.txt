@@ -1,0 +1,110 @@
+firebase project initialing:
+============================
+
+1.url : https://firebase.google.com/
+
+2.login
+
+3.create project or enter in existing project
+ 
+4.click firestore database > create  [test mode]
+
+5.click storage > create [test mode]
+
+6.click authentication > email-password mode [test mode]
+
+6.Build > Hosting > Get started  [for hosting]
+
+
+local installation:
+===================
+run:
+
+7.npm install -g firebase-tools  // if error restart pc and re run
+
+7.firebase login
+
+7.firebase init  //must be firebase installed and logged in
+
+8.proceed? yes
+
+9.Feature: Firestore, Storage, Hosting  [enter space-key to select]
+
+10.existing project? yes
+
+11.firetore.rules ? enter
+
+12.firetore.index.json ? enter
+
+13.directory: public? dist >-  enter
+
+14.index.html ? yes
+
+15.github ? no
+
+16.Storage.rules ? enter
+
+
+Connecting to firebase:
+=======================
+
+17. click </> => web
+
+18.register app: Any Name  [check hosting]
+
+19. Next > Next > Continue to Console
+
+20.Project Overview Page: click on app  > setting
+
+21.click config radio > copy the code
+
+22.In local: src/firebase/congig.js:   
+
+
+
+      import firebase from 'firebase/app'
+      import 'firebase/firestore'
+      import 'firebase/auth' 
+
+       or, if error
+
+
+
+      import firebase from 'firebase/compat/app'
+      import 'firebase/compat/firestore'
+      import 'firebase/compat/auth'    
+
+
+       //paste config code here
+
+       //init firebase
+       firebase.initializeApp(firebaseConfig)   //firebaseConfig is const name from paste code
+
+       //init firestore service
+       const projectAuth=firebase.auth()    
+
+       const projectFirestore= firebase.firestore()
+
+       // for store timestamp
+       const timestamp=firebase.firestore.FieldValue.serverTimestamp   //Optional, if you want to make timestamp column
+
+       export { projectAuth,projectFirestore, timestamp }    
+
+
+
+hosting:
+========
+run:
+
+23.npm run build
+
+
+24.firebase deploy
+
+after update the project:
+run:  
+
+25.npm run build
+
+26.firebase deploy
+

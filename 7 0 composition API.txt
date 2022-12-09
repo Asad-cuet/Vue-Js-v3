@@ -49,7 +49,7 @@ ________________
 
        return
        {
-          com_name     //exposing to template
+          com_name,handleClick     //exposing to template
        }
 
     }

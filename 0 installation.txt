@@ -1,11 +1,18 @@
 install:
+========
 1.node js
 
-2.vscode extension: Vetur
+2.npm install vue  [For Raw project]
+
+3.npm cache clean --force
+
+4.vue --version
+
+5.vscode extension: Vetur
 
 
 Project Creation:
-
+=================
 
 1.CDN Package
 
@@ -17,11 +24,12 @@ or
 
 3.Vue CLI:   [using it]
 
-           npm install -g @vue/cli     [ run this 1 time]
+           npm install -g @vue/cli     [ run this 1 time]  [to unstall:npm uninstall -g @vue/cli]
+]
 
            vue --version [checking]
 
-           vue create <project-name>
+           vue create <project-name>   [Always just run this]
 
            yarn serve or, npm run serve  [run server]
 

@@ -4,7 +4,9 @@ Now you are showing this modal component by a clicking method & v-if.
 Now,when you will close the modal,you have to close it from modal component.
 So,how can you close it from modal component,while you showing this from parent component?
 
-For this we use this.$emit() in modal component.By this you can run a method of parent component.
+I mean, If an action is taken in child component, how to know from parent component?
+
+For this we use this.$emit() in child component.By this you can run a method of parent component.
 
 How:
 

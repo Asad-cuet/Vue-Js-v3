@@ -2,7 +2,7 @@
 <template>
 <div>
 
-   Name:{{name}}    //out: hamzah
+   Name:{{name}}    // final out: hamzah
 
   <input type="text" v-model="name"/>   //inputing: hamzah
 

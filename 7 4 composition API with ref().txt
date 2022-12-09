@@ -34,7 +34,7 @@ import {ref} from 'vue'
 
        const c_firtName=ref('asad')   
 
-       const state = ref({     //also: ref(['asad','rahat','shanto']) .use for in template
+       const state = ref({                   //also: ref(['asad','rahat','shanto']) .use for loop in template
        name:'Rahat',
        age:22
        })

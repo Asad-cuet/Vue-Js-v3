@@ -1,0 +1,4 @@
+1.creation:
+==========================
+run:vue create <project-name>
+select:linter,vue 3,history-mood:y, in-dedicated,save:n

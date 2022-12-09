@@ -34,7 +34,7 @@ import { reactive,toRefs } from 'vue'
            console.log(state)  //out after 2:Rahat Mubassir
        },2000)
 
-       return toRefs(state)
+       return state
 
     }
 

@@ -38,7 +38,7 @@ import {computed,ref} from 'vue'
 
        const matchingNames= computed( ()=> {
 
-                          return names.value.filter((name)=>name.includes(search.value))
+                          return names.value.filter(name=>name.includes(search.value))
 
              })
 

@@ -1,0 +1,42 @@
+1.Got to firebase website >
+
+2.Get Started >
+
+3.Build > Hosting
+
+4.Get started >
+
+5.Run these command in your project path:
+
+        *npm install -g firebase-tools   [update npm:npm -v, npm install -g npm@latest][update node:node -v, see pc tricks file]
+
+        *firebase login
+
+        *firebase init     //press y+enter
+
+6.select hosting by arrow-key-down + enter
+
+7.I used existing project
+
+8.public directory = dist   //press y +enter
+
+9.With GitHub: n
+
+10.y
+
+
+
+
+11.run: npm run build
+
+
+12.run: firebase deploy
+
+Refresh on hosting page.You will get link
+
+
+After updating the project:
+
+run:  run: npm run build
+
+      firebase deploy

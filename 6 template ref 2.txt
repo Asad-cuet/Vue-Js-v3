@@ -1,3 +1,5 @@
+Def: Using this.$refs we can access DOM.
+
 <template>
 <div>
 

@@ -1,4 +1,5 @@
-Composition API: Composition API is not reactive. To make reactive we use ref()
+Composition API: Composition API is not reactive. To make reactive we use ref().
+                 ref() create a object where 1 element is value,which cotains value.
 ________________
 
 <template>
@@ -25,12 +26,12 @@ import {ref} from 'vue'     // this ref() is same to template ref.But you have t
     setup()    //it is entry point of cmposition API
     {
 
-       const p=ref(null)   
+       const p=ref(null)        
        console.log(p.value)  //out:null
 
        const handleClick= ()=> {
              console.log(p.value)             //out: whole p content
-             p.value.classList.add('test')    //like js
+             p.value.classList.add('test')    //like optional api this.$refs
              p.value.textContent='Bye Asad'
              }
 

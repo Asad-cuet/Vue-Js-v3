@@ -1,5 +1,5 @@
 
-#output not changed beacause vue doesn't know that.
+#See code first.  Output not changed beacause vue doesn't know that.
 
 For this solution ref comes.
 

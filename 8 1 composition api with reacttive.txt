@@ -35,7 +35,7 @@ import {ref,reactive} from 'vue'
 
   
 
-       const state = reactive({
+       const state = reactive({         //only object is reactive
        name:'Rahat',
        age:22
        })

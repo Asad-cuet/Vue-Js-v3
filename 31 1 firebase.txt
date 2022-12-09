@@ -36,6 +36,8 @@ OR, yarn add firebase-tools
 
 Or, npm install -g firebase-tools
 
+to login run: firebase login
+
 
 2.register: Firebase > project overview > </> > app name> register > 
 
