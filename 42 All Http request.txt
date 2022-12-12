@@ -1,0 +1,194 @@
+
+								Optional API:   *********************
+								=============
+								=============
+
+1.Get Request:
+-------------
+-------------
+
+
+methods:
+          {
+              read()
+              {
+               this.$http.get('').then((data)=>{
+                               console.log(data);
+                               this.datas=data.body.slice(0,10)
+                              })
+              }
+
+          }
+
+         calling:  @click="read"
+        calling from hook: created()
+      				{
+      					this.read()
+      				}
+
+methods:
+       {
+
+          getPost()
+          {
+              axios.get('url')
+              .then((response)=>{
+                  console.log(response.data)
+                  this.post=response.data
+               }) 
+              .catch((error)=>{
+                  console.log(error)
+                  this.errorMsg='error in retrieving'
+               })
+          }
+
+      }
+
+	calling:  @click="getPost"
+
+        calling from hook: created()
+      				{
+      					this.getPost()
+      				}
+
+mounted()
+  {
+      fetch('http://localhost:3000/projects')
+     .then(res => res.json())
+
+     .then(data => this.projects = data)        //data() { return { projects:[], current:'all' }   }
+     or,
+     .then(data=> {                   // when single row returning
+            this.title=data.title;
+            this.details=data.details;
+            this.complete=data.complete;
+      });
+
+     .catch(err => console.log(err.message ));
+  }
+
+2.Post Request:
+---------------
+
+methods:
+          {
+              submitted()
+              {
+               this.$http.post('',{
+                     email:this.email,             // data() {   email:'asadul7733@gmail.com', password:123456     }
+                     password:this.password
+                          }).then((data)=>{
+                               console.log(data);
+                              })
+              }
+
+          }
+
+
+methods:
+       {
+
+          createPost()
+          {
+              axios.post('url',this.formData)      // data() {    formData:{ name:'asad', id:1911022 }   }
+              .then((response)=>{
+                  console.log(response.data)
+               }) 
+              .catch((error)=>{
+                  console.log(error)
+                  this.errorMsg='error in retrieving'
+               })
+          }
+
+      }
+
+
+
+
+methods: {
+    handleSubmit() {
+      let project= {
+        title: this.title,         // title etc in decrlared in data()
+        details: this.details,
+        complete: false
+      }
+      fetch('http://localhost:3000/projects', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(project)
+      })
+      .then(()=> {
+        this.$router.push('/')
+      })
+      .catch((err)=> console.log(err));
+    }
+  }
+
+
+
+								Composition API:   *********************
+								=============
+								=============
+
+1.Get Request:
+-------------
+-------------
+
+import {ref} from 'vue'
+
+setup()
+      {
+            const posts=ref([])
+            const error=ref([])
+
+            const load= async() => {
+                  try {
+                        let data=await fetch('url')
+                        if(!data.ok)                  //data have key named ok
+                        {
+                              throw Error('No data')
+                        }
+                        posts.value= await data.json()
+                  }
+                  catch (err) {
+                        error.value=err.message
+                        console.log(error.value)
+                  }
+            }
+
+            load()
+
+            return {
+                  posts,error
+            }
+      }
+
+
+
+
+
+import {ref} from 'vue'
+
+const getPost = (id) => {
+      	    const posts=ref([])
+            const error=ref([])
+
+            const load= async() => {
+                  try {
+                        let data=await fetch('url/'+id)
+                        if(!data.ok)                  //data have key named ok
+                        {
+                              throw Error('This data not exist')
+                        }
+                        posts.value= await data.json()
+                  }
+                  catch (err) {
+                        error.value=err.message
+                        console.log(error.value)
+                  }
+            }
+
+            return {
+                  post,error,load
+            }
+}

@@ -1,0 +1,100 @@
+Shortly:
+========
+name.js:
+
+
+const getPost = (id) => {
+
+
+            const load= async() => {
+
+                        let data=await fetch('url/'+id)
+                        posts.value= await data.json()
+            }
+            return {
+                  posts
+            }
+}
+export default getPost
+
+
+Calling from component:
+-----------------------
+
+<script>
+import getPost from '../compasables/getPost'
+
+   export default {
+      props:['id'],
+      setup(props)
+      {
+            const {posts} = getPost(props.id)   
+
+            load() // running function
+
+            return {
+                  post
+            }
+      }
+   }
+
+</script>
+
+
+
+                                                              Details:
+							      ========
+
+name.js:
+
+import {ref} from 'vue'
+
+const getPost = (id) => {
+            const posts=ref([])
+            const error=ref([])
+
+            const load= async() => {
+                  try {
+                        let data=await fetch('url/'+id)
+                        if(!data.ok)                  //data have key named ok
+                        {
+                              throw Error('This data not exist')
+                        }
+                        posts.value= await data.json()
+                  }
+                  catch (err) {
+                        error.value=err.message
+                        console.log(error.value)
+                  }
+            }
+
+            return {
+                  post,error,load
+            }
+}
+
+
+export default getPost
+
+
+Calling from component:
+-----------------------
+
+<script>
+import getPost from '../compasables/getPost'
+
+   export default {
+      props:['id'],
+      setup(props)
+      {
+            const {post,error,load} = getPost(props.id)   //calling these code
+
+            load() // running function
+
+            return {
+                  post,error   //also do it
+            }
+      }
+   }
+
+</script>

@@ -8,7 +8,7 @@ const name=ref('asad')      //it is reativity
 
 
 const name=ref({name:'asad',age:23})      //it is reativity
-      name.value='hamzah'
+      name.value.name='hamzah'
 
 
 
