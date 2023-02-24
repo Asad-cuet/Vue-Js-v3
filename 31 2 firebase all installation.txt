@@ -52,7 +52,7 @@ Connecting to firebase:
 
 17. click </> => web
 
-18.register app: Any Name  [check hosting]
+18.register app: Any Name  [check hosting] [set he domain]
 
 19. Next > Next > Continue to Console
 

@@ -1,4 +1,4 @@
-run:vue add router
+installation: vue add router   [cli]
 
 * For Details: see v2
 

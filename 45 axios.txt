@@ -1,0 +1,15 @@
+run: npm install --save axios vue-axios
+     import axios from 'axios'
+
+
+axios.defaults.baseURL='http://127.0.0.1:8000/api/v1/'
+
+const response=await axios.get('skills')
+
+const response=await axios.get('skills/'+id)
+
+await axios.post('skills',data)
+
+await axios.put('skills/'+id,skill.value)
+
+await axios.delete('skills/'+id)
