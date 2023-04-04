@@ -1,0 +1,2 @@
+A state management or store for vue where you can define all data,functions you need.
+And these are accessable from anywhere of the App 

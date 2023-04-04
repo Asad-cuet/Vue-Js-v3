@@ -82,3 +82,15 @@ import {ref} from 'vue'
 }
 
 </script>
+
+Or,
+
+<script setup> // using composition api drectly
+
+  const {title}=defineProps({
+    title:String
+  }) 
+  
+  const emit=defineEmits(['submit'])   //@submit.prevent="emit('submit')"
+</script>
+

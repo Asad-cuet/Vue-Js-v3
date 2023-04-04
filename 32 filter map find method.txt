@@ -5,7 +5,7 @@ Inside any method():
 ==============================================================
 ==============================================================
 
-this.projects=this.projects.filter(project=> {
+this.projects=this.projects.filter(project=> {    this also shoulb be return
 
  return project.id === 7
 

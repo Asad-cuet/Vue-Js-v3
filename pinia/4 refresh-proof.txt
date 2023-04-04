@@ -1,0 +1,101 @@
+Pinia goes to initial value after page reloading.
+Make Refresh-proof of your Pinia Stores:
+
+Reference: 
+==========
+  Noted below
+  https://www.vuemastery.com/blog/refresh-proof-your-pinia-stores/
+
+  for Nuxt:
+  https://prazdevs.github.io/pinia-plugin-persistedstate/frameworks/nuxt-3.html
+
+  or,
+
+  https://seb-l.github.io/pinia-plugin-persist/#vue2
+
+
+
+
+Using Wathch:
+=============
+using Watch
+The most common way to persist values is to save them in local storage and use the saved values to hydrate our Pinia store when the app loads.
+
+We can use the watch method from Vue to achieve this.
+
+Update your main.js to include the following code:
+-------------------------------------------------
+
+import { createApp, watch } from "vue";
+...
+
+watch(
+  pinia.state,
+  (state) => {
+    localStorage.setItem("counter", JSON.stringify(state.counter));
+  },
+  { deep: true }
+  );
+
+and update your counter.js to include the following code:
+---------------------------------------------------------
+state: () => {
+    if (localStorage.getItem("counter"))
+      return JSON.parse(localStorage.getItem("counter"));
+    return {
+      count: 0,
+    };
+  },
+Let’s examine what our code is doing here. In the first code block, we use the watch method to detect when there are changes to our state. If there’s a change, we want to update our localStorage with this change. In the second code block, after our store is created, we check if there’s already a value for our counter state in localStorage. If there is, we then set that value to our initial value for our counter.
+
+
+Using Plugin:
+=============
+
+Using a plugin
+The final approach we’re going to look at is using a plugin. A great example is the Pinia plugin called persistedstate. This is a tiny package that is highly customizable, compatible with both Vue 2 and Vue 3, and (at the time of this writing) is being actively maintained.
+
+To use this, we have to install it:
+
+yarn add pinia-plugin-persistedstate
+
+# or with npm
+npm i pinia-plugin-persistedstate
+Update your main.js file to use the plugin:
+
+📁src/main.js
+
+...
+
+import piniaPluginPersistedState from "pinia-plugin-persistedstate"
+
+const pinia = createPinia();
+
+pinia.use(piniaPluginPersistedState)
+
+Finally, add a property called persist and set it to true in your counter store object.
+
+📁src/stores/counter.js
+
+export const useCounterStore = defineStore("counter", {
+  state: () => {
+    return {
+     count: 0,
+    };
+  },
+  ...
+  persist: true,
+});
+You can also configure how a store is persisted by specifying options to the persist property. For example, our plugin persists data in local storage by default but we can modify it to use session storage by updating the storage configuration that exists in the persist property:
+
+export const useCounterStore = defineStore("counter", {
+  state: () => {
+    return {
+     count: 0,
+    };
+  },
+  ...
+  persist: {
+    storage: sessionStorage, // data in sessionStorage is cleared when the page session ends.
+  },
+});

@@ -1,0 +1,7 @@
+Equivalent things:
+
+	-Data   :  State
+	
+	-Computed Properties : Getters
+
+	-Methods : Actions

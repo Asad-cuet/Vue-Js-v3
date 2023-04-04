@@ -1,0 +1,112 @@
+src/stores/counter.js:
+======================
+
+import { defineStore } from 'pinia'
+
+export const useCounterStore = defineStore('counter', {
+  // other options...
+})
+
+
+
+
+Other options:
+=============
+export const useCounterStore = defineStore('counter', {
+  state: () => ({ count: 0, name: 'Eduardo' }),
+  getters: {
+    doubleCount: (state) => state.count * 2,
+  },
+  actions: {
+    increment() {
+      this.count++
+    },
+  },
+})
+
+
+In setup syntax:
+=================
+export const useCounterStore = defineStore('counter', () => {
+  const count = ref(0)
+  const name = ref('Eduardo')
+  const doubleCount = computed(() => count.value * 2)
+  function increment() {
+    count.value++
+  }
+
+  return { count, name, doubleCount, increment }
+})
+
+Note:
+=====
+ref()s become state properties
+computed()s become getters
+function()s become actions
+
+
+
+
+
+
+Access from script:
+===================
+
+<script setup>
+import { useCounterStore } from '@/stores/counter'
+
+const store = useCounterStore()
+</script>
+
+
+
+Accessing State:
+================
+
+const store = useStore()
+
+store.count++  //updating
+
+//updating by patch
+
+store.$patch((state)=>{
+    (state.counter=0),
+    (state.other={})
+})
+
+
+Accessing getters:
+==================
+store.getterName
+
+
+
+Accessing Action:
+==================
+//store.count++ can done by actions
+
+<template>
+<button @click="store.actioName">Action</button>
+</template>
+
+
+
+
+Reseting State:
+===============
+const store = useStore()
+
+store.$reset()
+
+
+Reset in setup store have to defined by you:
+============================================
+export const useCounterStore = defineStore('counter', () => {
+  const count = ref(0)
+
+  function $reset() {
+    count.value = 0
+  }
+
+  return { count, $reset }
+})
